@@ -1,0 +1,55 @@
+<div class="activities">
+    <div class="activities__header">
+      <h2>Recent Activities</h2>
+    </div>
+    {% for questions_answer in questions_answers %}
+    <div class="activities__box">
+        <div class="activities__boxHeader roomListRoom__header">
+        <a href="{% url 'user-profile' questions_answer.user.id %}" class="roomListRoom__author">
+          <div class="avatar avatar--small">
+            <img src="{{questions_answer.user.avatar.url}}" />
+          </div>
+          <p>
+            @{{questions_answer.user.username}}
+            <span>{{questions_answer.created|timesince}} ago</span>
+          </p>
+        </a>
+        {% if questions_answer.user == request.user %}
+        <div class="roomListRoom__actions">
+          <a href="{% url 'delete-answer' questions_answer.id %}">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+              <title>remove</title>
+              <path
+                d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z"
+              ></path>
+            </svg>
+          </a>
+        </div>
+        {% endif %}
+        </div>
+        <div class="activities__boxContent">
+            <p>replied to post “<a href="{% url 'questions' questions_answer.id %}">{{questions_answer.quest}}</a>”</p>
+            <div class="activities__boxRoomContent">
+            {{questions_answer.body}}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% comment %} 
+{% for questions_answer in questions_answers %}
+    <div>
+        <small><a href = '{% url 'user-profile' questions_answer.user.id %}'>@{{questions_answer.user}}</a> {{questions_answer.created|timesince}}</small>
+        <small>replied to "{{questions_answer.room}}"</small>
+        
+        <p>{{questions_answer}}</p>
+        {% if questions_answer.user == request.user %}
+        <a href="{% url 'delete-answer' questions_answer.id %}">Delete</a>
+        {% endif %} 
+        <hr>
+    </div>
+{% endfor %}   
+{% endcomment %}
+
